@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduQuest - Futuristic Learning Adventure</title>
+    <meta
+      name="description"
+      content="Enter the future of education with our dark-themed gamification platform. Unlock neon-powered levels, earn digital rewards, and master skills in a cyberpunk learning environment."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+  </head>
+
+  <style>
+    :root {
+  --bg: #121212;
+  --black: #000;
+  --white: #fff;
+  --text: #e5e5e5;
+  --muted: #9ca3af;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #f97316;
+  --yellow-300: #fde047;
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --green-400: #34d399;
+  --green-500: #22c55e;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-800: #1f2937;
+  --card: #00000099;
+  --blur-bg: blur(8px);
+  --radius: 1.25rem;
+  --transition: 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 0 1rem;
+}
+
+/* Helpers */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+  border: 4px solid var(--orange-300);
+  background: linear-gradient(90deg, var(--orange-500), var(--yellow-500));
+  color: #000;
+  transform: translateZ(0);
+  transition: transform var(--transition), filter var(--transition),
+    opacity var(--transition);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  box-shadow: 0 10px 30px #fb923c40;
+  cursor: pointer;
+}
+.btn:hover {
+  transform: scale(1.06);
+}
+.badge {
+  display: inline-block;
+  font-weight: 800;
+  border: 2px solid;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--mono);
+}
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .grid-md-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .grid-lg-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Cards */
+.card {
+  padding: 2rem;
+  background: color-mix(in srgb, var(--black) 60%, transparent);
+  border: 4px solid var(--gray-600);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: var(--blur-bg);
+  transition: transform var(--transition), border-color var(--transition),
+    opacity var(--transition);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  border-radius: 12px;
+}
+.card:hover {
+  transform: scale(1.03);
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, #000 80%, transparent);
+  backdrop-filter: var(--blur-bg);
+  border-bottom: 1px solid #fb923c4d;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand-box {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(90deg, var(--orange-500), var(--yellow-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px #fb923c40;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+.brand-title {
+  font-weight: 800;
+  font-size: 1.5rem;
+  font-family: var(--mono);
+  background: linear-gradient(90deg, var(--orange-400), var(--yellow-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.navlinks {
+  display: none;
+  gap: 2rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .navlinks {
+    display: flex;
+  }
+}
+.navlink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #d1d5dbaa;
+  font-family: var(--mono);
+  transition: color var(--transition);
+}
+.navlink:hover {
+  color: var(--orange-400);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  padding: 5rem 0 8rem;
+}
+.hero h1 {
+  text-align: center;
+  margin: 0 0 1rem;
+  font-family: var(--mono);
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  font-weight: 900;
+  background: linear-gradient(
+    90deg,
+    var(--orange-400),
+    var(--yellow-400),
+    var(--green-400)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero .lead {
+  font-family: var(--mono);
+  text-align: center;
+  color: #d1d5db;
+  font-size: clamp(1.1rem, 2.3vw, 1.5rem);
+}
+.hero .sub {
+  max-width: 40rem;
+  margin: 1rem auto 2.5rem;
+  text-align: center;
+  color: #9ca3af;
+}
+.hero .cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* Pixel particles & deco */
+.pixel {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  opacity: 0.7;
+  animation: pulse 1.4s infinite;
+}
+.bounce {
+  animation: bounce 1.6s infinite;
+}
+@keyframes pulse {
+  50% {
+    transform: scale(0.75);
+    opacity: 0.45;
+  }
+}
+@keyframes bounce {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Sections */
+section {
+  position: relative;
+}
+.section-title {
+  text-align: center;
+  font-weight: 900;
+  margin: 0 0 0.5rem;
+  font-family: var(--mono);
+  font-size: clamp(2rem, 4vw, 3rem);
+  background: linear-gradient(90deg, var(--orange-400), var(--yellow-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.section-sub {
+  color: #d1d5db;
+  text-align: center;
+  margin-bottom: 3rem;
+  font-family: var(--mono);
+}
+
+/* Levels specific */
+.level-num {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  border: 4px solid var(--gray-500);
+  background: linear-gradient(90deg, #6b7280, #9ca3af);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+.level-title {
+  font-weight: 800;
+  text-align: center;
+  margin: 0.25rem 0;
+  font-family: var(--mono);
+}
+.badge-completed {
+  background: var(--orange-500);
+  color: #000;
+  border-color: var(--orange-300);
+}
+.badge-progress {
+  background: var(--yellow-500);
+  color: #000;
+  border-color: var(--yellow-300);
+}
+.badge-locked {
+  background: var(--gray-600);
+  color: #d1d5db;
+  border-color: var(--gray-500);
+}
+
+/* Progress */
+.progress-card {
+  background: color-mix(in srgb, #000 60%, transparent);
+  border: 4px solid color-mix(in srgb, var(--yellow-500) 50%, transparent);
+  padding: 2rem;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  backdrop-filter: var(--blur-bg);
+}
+.bar {
+  position: relative;
+  height: 24px;
+  background: #111827;
+  border: 2px solid #4b5563;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+.bar-fill {
+  position: absolute;
+  inset: 0;
+  height: 24px;
+  width: 65%;
+  background: linear-gradient(90deg, var(--orange-500), var(--yellow-500));
+  border: 2px solid var(--orange-300);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Game preview */
+.aspect-video {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+.av-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #064e3b, #000);
+  border: 4px solid #10b98155;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Footer */
+footer {
+  background: color-mix(in srgb, #000 80%, transparent);
+  border-top: 4px solid #fb923c4d;
+}
+.footer-grid {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.social-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #fb923c80;
+  background: #00000099;
+  transition: var(--transition);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+.social-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Simple icon reset */
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.2em;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* Section backgrounds */
+.bg-slice {
+  background: linear-gradient(90deg, #7c2d1233, #713f1233);
+}
+
+/* Utility */
+.mono {
+  font-family: var(--mono);
+}
+.center {
+  text-align: center;
+}
+.muted {
+  color: var(--gray-400);
+}
+
+.quicks a {
+  transition: 0.3s ease-in;
+}
+
+.quicks a:hover {
+  color: var(--orange-500);
+}
+
+.popupOverlay{
+   display: none;
+   transition: opacity 0.3s ease-out ;
+}
+
+.popup{
+  width: 600px;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(40px);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.1);
+  position: fixed;
+  right: 6%;
+  top: 10%;
+  z-index: 1000000;
+ 
+}
+.popup .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 20%;
+}
+.popup .userInfo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding-left: 20px;
+}
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.overlay.active .popup {
+  transform: scale(1);
+}
+i:hover{
+  backdrop-filter: drop-shadow(linear-gradient(135deg,var(--yellow-300), var(--orange-300), var(--orange-500)));
+}
+  </style>
+
+  <body>
+
+    <div
+      class="min-h-screen relative"
+      style="min-height: 100vh; overflow: hidden"
+      id="home"
+    >
+      <!-- Pixel particle background -->
+      <div aria-hidden="true" style="pointer-events: none">
+        <span
+          class="pixel"
+          style="top: 5rem; left: 2.5rem; background: var(--orange-400)"
+        ></span>
+        <span
+          class="pixel"
+          style="
+            top: 8rem;
+            right: 5rem;
+            background: var(--yellow-300);
+            animation-delay: 0.5s;
+          "
+        ></span>
+        <span
+          class="pixel"
+          style="
+            top: 12rem;
+            left: 25%;
+            background: var(--green-400);
+            animation-delay: 1s;
+          "
+        ></span>
+        <span
+          class="pixel"
+          style="
+            bottom: 8rem;
+            right: 33%;
+            background: var(--orange-400);
+            animation-delay: 1.5s;
+          "
+        ></span>
+        <span
+          class="pixel"
+          style="
+            bottom: 12rem;
+            left: 33%;
+            background: var(--yellow-300);
+            animation-delay: 2s;
+          "
+        ></span>
+        <span
+          class="pixel"
+          style="
+            top: 16rem;
+            right: 2.5rem;
+            background: var(--green-400);
+            animation-delay: 2.5s;
+          "
+        ></span>
+      </div>
+
+      <!-- Navbar -->
+      <nav class="navbar">
+        <div class="container" style="padding: 0.9rem 1rem">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 1rem;
+            "
+          >
+            <div class="brand">
+              <div class="brand-box">
+                <!-- Trophy Icon -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M8 21h8" />
+                  <path d="M12 17v4" />
+                  <path d="M7 4h10v3a5 5 0 0 1-10 0V4Z" />
+                  <path d="M5 8a3 3 0 0 1-3-3V4h5v1a3 3 0 0 1-2 3Z" />
+                  <path d="M19 8a3 3 0 0 0 3-3V4h-5v1a3 3 0 0 0 2 3Z" />
+                </svg>
+              </div>
+              <span class="brand-title">EduQuest</span>
+            </div>
+
+            <div class="navlinks">
+              <a class="navlink" href="#top">
+                <!-- Home -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M3 9l9-7 9 7" />
+                  <path d="M9 22V12h6v10" />
+                </svg>
+                <span>Home</span>
+              </a>
+              <a class="navlink" href="#levels">
+                <!-- Trophy -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M8 21h8" />
+                  <path d="M12 17v4" />
+                  <path d="M7 4h10v3a5 5 0 0 1-10 0V4Z" />
+                  <path d="M5 8a3 3 0 0 1-3-3V4h5v1a3 3 0 0 1-2 3Z" />
+                  <path d="M19 8a3 3 0 0 0 3-3V4h-5v1a3 3 0 0 0 2 3Z" />
+                </svg>
+                <span>Levels</span>
+              </a>
+              <a
+                class="navlink"
+                href="#progress"
+                style="--hover: var(--yellow-400)"
+              >
+                <!-- BarChart3 -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M3 3v18h18" />
+                  <path d="M7 13h2v5H7z" />
+                  <path d="M11 9h2v9h-2z" />
+                  <path d="M15 5h2v13h-2z" />
+                </svg>
+                <span>My Progress</span>
+              </a>
+              <a class="navlink" href="#game" style="--hover: var(--green-400)">
+                <!-- Play -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M5 3l14 9-14 9z" />
+                </svg>
+                <span>Play</span>
+              </a>
+              <a
+                id="prof"
+                href="#"
+                class="navink"
+                style="--hover: var(--green-400)"
+              >
+                <i class="fa-solid fa-circle-user" style="color: #ffffff"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero -->
+      <section class="hero" id="top" aria-label="Hero">
+        <!-- decorative blocks -->
+        <div
+          aria-hidden="true"
+          style="position: absolute; inset: 0; opacity: 0.2"
+        >
+          <div
+            style="
+              position: absolute;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              height: 8rem;
+              background: linear-gradient(0deg, #064e3b80, transparent);
+            "
+          ></div>
+          <div
+            style="
+              position: absolute;
+              bottom: 2rem;
+              left: 25%;
+              width: 4rem;
+              height: 4rem;
+              background: #16a34a;
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            "
+          ></div>
+          <div
+            style="
+              position: absolute;
+              bottom: 2rem;
+              right: 33%;
+              width: 3rem;
+              height: 5rem;
+              background: #15803d;
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            "
+          ></div>
+          <div
+            style="
+              position: absolute;
+              bottom: 4rem;
+              left: 50%;
+              width: 2rem;
+              height: 2rem;
+              background: #eab308;
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            "
+          ></div>
+        </div>
+
+        <div class="container">
+          <div class="popupOverlay" id="popupOverlay">
+            <div id="popup" class="popup">
+              <div class="top">
+                <div class="topLeft">
+                  <div class="userInfo">
+                    <img
+                      src="pics/375238655_11475221.jpg"
+                      style="width: 35px; height: 35px; border-radius: 50%"
+                      alt=""
+                    />
+                    <div class="username"><span>MahmoudHilmi</span></div>
+                    <div
+                      onclick="location.href = 'settings.html'"
+                      style="cursor: pointer"
+                      class="sett"
+                    >
+                      <i class="fa-solid fa-gear" style="color: #ffffff"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="topRight">
+                  <i
+                    id="closeBtn"
+                    class="fa-solid fa-xmark"
+                    style="
+                      font-size: 20px;
+                      padding-right: 20px;
+                      cursor: pointer;
+                    "
+                  ></i>
+                </div>
+              </div>
+
+              <div class="bottom"></div>
+            </div>
+          </div>
+
+          <h1>PIXEL QUEST!</h1>
+          <p class="lead">Level up your learning in classic 8-bit style</p>
+          <p class="sub">
+            Collect coins, unlock achievements, and master skills in retro
+            gaming fashion!
+          </p>
+          <div id="cta" class="cta">
+            <button class="btn">
+              <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                style="width: 1.25em; height: 1.25em"
+              >
+                <path d="M5 3l14 9-14 9z" />
+              </svg>
+              START LEARNING
+            </button>
+          </div>
+        </div>
+
+        <!-- bouncing pixels -->
+        <span
+          class="bounce"
+          style="
+            position: absolute;
+            top: 8rem;
+            left: 2.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: var(--orange-400);
+            opacity: 0.8;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+          "
+        ></span>
+        <span
+          class="bounce"
+          style="
+            position: absolute;
+            top: 12rem;
+            right: 5rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--yellow-400);
+            opacity: 0.8;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            animation-delay: 0.4s;
+          "
+        ></span>
+        <span
+          class="bounce"
+          style="
+            position: absolute;
+            bottom: 8rem;
+            left: 25%;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--green-400);
+            opacity: 0.8;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            animation-delay: 0.8s;
+          "
+        ></span>
+        <span
+          class="bounce"
+          style="
+            position: absolute;
+            bottom: 5rem;
+            right: 33%;
+            width: 1.75rem;
+            height: 1.75rem;
+            background: var(--orange-400);
+            opacity: 0.8;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            animation-delay: 1.2s;
+          "
+        ></span>
+      </section>
+
+      <!-- Levels -->
+      <section id="levels" style="padding: 5rem 0; background: #0000004d">
+        <div class="container">
+          <h2 class="section-title mono">CHOOSE YOUR LEVEL</h2>
+          <p class="section-sub mono">
+            Progress through pixel worlds and unlock new adventures
+          </p>
+
+          <div
+            class="grid grid-md-2 grid-lg-3"
+            style="max-width: 72rem; margin-inline: auto"
+          >
+            <!-- Level 1 - Unlocked -->
+            <article
+              class="card"
+              style="border-color: var(--orange-400); background: #00000099"
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  color: var(--orange-400);
+                "
+              >
+                <!-- Unlock -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7" />
+                </svg>
+              </div>
+              <div
+                class="level-num"
+                style="
+                  border-color: var(--orange-300);
+                  background: linear-gradient(
+                    90deg,
+                    var(--orange-500),
+                    var(--orange-400)
+                  );
+                "
+              >
+                <span
+                  class="mono"
+                  style="font-weight: 800; color: #000; font-size: 1.25rem"
+                  >1</span
+                >
+              </div>
+              <h3 class="level-title mono" style="color: #fdba74">
+                STARTER WORLD
+              </h3>
+              <p
+                class="center"
+                style="
+                  color: #d1d5db;
+                  margin: 0.5rem 0 1rem;
+                  font-family: var(--mono);
+                  font-size: 0.9rem;
+                "
+              >
+                Master the basics in pixel paradise
+              </p>
+              <div class="center">
+                <span class="badge badge-completed mono">COMPLETED</span>
+              </div>
+            </article>
+
+            <!-- Level 2 - Unlocked -->
+            <article
+              class="card"
+              style="border-color: var(--yellow-400); background: #00000099"
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  color: var(--yellow-400);
+                "
+              >
+                <!-- Unlock -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7" />
+                </svg>
+              </div>
+              <div
+                class="level-num"
+                style="
+                  border-color: var(--yellow-300);
+                  background: linear-gradient(
+                    90deg,
+                    var(--yellow-500),
+                    var(--yellow-400)
+                  );
+                "
+              >
+                <span
+                  class="mono"
+                  style="font-weight: 800; color: #000; font-size: 1.25rem"
+                  >2</span
+                >
+              </div>
+              <h3 class="level-title mono" style="color: var(--yellow-300)">
+                FOREST REALM
+              </h3>
+              <p
+                class="center"
+                style="
+                  color: #d1d5db;
+                  margin: 0.5rem 0 1rem;
+                  font-family: var(--mono);
+                  font-size: 0.9rem;
+                "
+              >
+                Explore deeper pixel mysteries
+              </p>
+              <div class="center">
+                <span class="badge badge-progress mono">IN PROGRESS</span>
+              </div>
+            </article>
+
+            <!-- Level 3 - Locked -->
+            <article class="card" style="opacity: 0.6">
+              <div
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  color: var(--gray-500);
+                "
+              >
+                <!-- Lock -->
+                <svg class="icon" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div class="level-num">
+                <span
+                  class="mono"
+                  style="font-weight: 800; color: #d1d5db; font-size: 1.25rem"
+                  >3</span
+                >
+              </div>
+              <h3 class="level-title mono" style="color: #9ca3af">
+                CRYSTAL CAVES
+              </h3>
+              <p
+                class="center"
+                style="
+                  color: #6b7280;
+                  margin: 0.5rem 0 1rem;
+                  font-family: var(--mono);
+                  font-size: 0.9rem;
+                "
+              >
+                Ultimate pixel challenge awaits
+              </p>
+              <div class="center">
+                <span class="badge badge-locked mono">LOCKED</span>
+              </div>
+            </article>
+
+            <!-- Level 4 - Locked -->
+            <article class="card" style="opacity: 0.6">
+              <div
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  color: var(--gray-500);
+                "
+              >
+                <svg class="icon" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div class="level-num">
+                <span
+                  class="mono"
+                  style="font-weight: 800; color: #d1d5db; font-size: 1.25rem"
+                  >4</span
+                >
+              </div>
+              <h3 class="level-title mono" style="color: #9ca3af">
+                SKY FORTRESS
+              </h3>
+              <p
+                class="center"
+                style="
+                  color: #6b7280;
+                  margin: 0.5rem 0 1rem;
+                  font-family: var(--mono);
+                  font-size: 0.9rem;
+                "
+              >
+                For pixel masters only
+              </p>
+              <div class="center">
+                <span class="badge badge-locked mono">LOCKED</span>
+              </div>
+            </article>
+
+            <!-- Level 5 - Locked -->
+            <article class="card" style="opacity: 0.6">
+              <div
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  color: var(--gray-500);
+                "
+              >
+                <svg class="icon" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div class="level-num">
+                <span
+                  class="mono"
+                  style="font-weight: 800; color: #d1d5db; font-size: 1.25rem"
+                  >5</span
+                >
+              </div>
+              <h3 class="level-title mono" style="color: #9ca3af">
+                LEGEND ZONE
+              </h3>
+              <p
+                class="center"
+                style="
+                  color: #6b7280;
+                  margin: 0.5rem 0 1rem;
+                  font-family: var(--mono);
+                  font-size: 0.9rem;
+                "
+              >
+                Achieve legendary pixel status
+              </p>
+              <div class="center">
+                <span class="badge badge-locked mono">LOCKED</span>
+              </div>
+            </article>
+
+            <!-- Level 6 - Locked -->
+            <article class="card" style="opacity: 0.6">
+              <div
+                style="
+                  position: absolute;
+                  top: 1rem;
+                  right: 1rem;
+                  color: var(--gray-500);
+                "
+              >
+                <svg class="icon" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div class="level-num">
+                <span
+                  class="mono"
+                  style="font-weight: 800; color: #d1d5db; font-size: 1.25rem"
+                  >6</span
+                >
+              </div>
+              <h3 class="level-title mono" style="color: #9ca3af">
+                FINAL BOSS
+              </h3>
+              <p
+                class="center"
+                style="
+                  color: #6b7280;
+                  margin: 0.5rem 0 1rem;
+                  font-family: var(--mono);
+                  font-size: 0.9rem;
+                "
+              >
+                The ultimate pixel frontier
+              </p>
+              <div class="center">
+                <span class="badge badge-locked mono">LOCKED</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Progress -->
+      <section id="progress" class="bg-slice" style="padding: 5rem 0">
+        <div class="container">
+          <div style="max-width: 64rem; margin-inline: auto">
+            <h2
+              class="section-title mono"
+              style="
+                background: linear-gradient(
+                  90deg,
+                  var(--yellow-400),
+                  var(--green-400)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              YOUR PROGRESS
+            </h2>
+
+            <div
+              class="progress-card"
+              style="margin: 0 auto 2rem; max-width: 48rem"
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  margin-bottom: 1rem;
+                  gap: 1rem;
+                "
+              >
+                <div>
+                  <div
+                    class="mono"
+                    style="
+                      font-size: 1.5rem;
+                      font-weight: 900;
+                      color: var(--yellow-300);
+                    "
+                  >
+                    CURRENT LEVEL: 2
+                  </div>
+                  <div class="mono" style="color: #d1d5db">FOREST REALM</div>
+                </div>
+                <div class="mono" style="text-align: right">
+                  <div
+                    style="
+                      font-size: 2rem;
+                      font-weight: 900;
+                      color: var(--orange-400);
+                    "
+                  >
+                    65%
+                  </div>
+                  <div style="color: #d1d5db">COMPLETE</div>
+                </div>
+              </div>
+
+              <div class="bar"></div>
+              <div class="bar-fill"></div>
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-top: 0.5rem;
+                  color: #9ca3af;
+                "
+                class="mono"
+              >
+                <span>LEVEL 2 PROGRESS</span><span>650 / 1000 XP</span>
+              </div>
+            </div>
+
+            <div class="grid grid-md-2 grid-lg-3">
+              <div
+                class="card"
+                style="border-color: #fb923c80; background: #00000099"
+              >
+                <div
+                  class="mono"
+                  style="
+                    font-size: 2rem;
+                    font-weight: 900;
+                    color: var(--orange-400);
+                    margin-bottom: 0.25rem;
+                  "
+                >
+                  12
+                </div>
+                <div class="muted mono" style="font-size: 0.9rem">
+                  LESSONS DONE
+                </div>
+              </div>
+              <div
+                class="card"
+                style="border-color: #facc1580; background: #00000099"
+              >
+                <div
+                  class="mono"
+                  style="
+                    font-size: 2rem;
+                    font-weight: 900;
+                    color: var(--yellow-400);
+                    margin-bottom: 0.25rem;
+                  "
+                >
+                  8
+                </div>
+                <div class="muted mono" style="font-size: 0.9rem">
+                  ACHIEVEMENTS
+                </div>
+              </div>
+              <div
+                class="card"
+                style="border-color: #22c55e80; background: #00000099"
+              >
+                <div
+                  class="mono"
+                  style="
+                    font-size: 2rem;
+                    font-weight: 900;
+                    color: var(--green-400);
+                    margin-bottom: 0.25rem;
+                  "
+                >
+                  24
+                </div>
+                <div class="muted mono" style="font-size: 0.9rem">
+                  DAY STREAK
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game Preview -->
+      <section id="game" style="padding: 5rem 0; background: #00000033">
+        <div class="container">
+          <div style="max-width: 64rem; margin-inline: auto">
+            <h2
+              class="section-title mono"
+              style="
+                background: linear-gradient(
+                  90deg,
+                  var(--orange-400),
+                  var(--green-400)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              UNLOCK NEXT ADVENTURE
+            </h2>
+
+            <article
+              class="card"
+              style="
+                border-color: #fb923c80;
+                background: #00000099;
+                max-width: 48rem;
+                margin: 0 auto;
+              "
+            >
+              <div class="aspect-video" aria-hidden="true">
+                <div class="av-inner">
+                  <div
+                    style="position: absolute; inset: 0; background: #00000066"
+                  ></div>
+
+                  <div
+                    style="
+                      position: relative;
+                      z-index: 2;
+                      text-align: center;
+                      color: #fff;
+                      padding: 1rem;
+                    "
+                  >
+                    <svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      style="
+                        width: 3.5rem;
+                        height: 3.5rem;
+                        margin: 0 auto 0.6rem;
+                        color: var(--orange-400);
+                      "
+                    >
+                      <path d="M5 3l14 9-14 9z" />
+                    </svg>
+                    <h3
+                      class="mono"
+                      style="
+                        font-size: 1.25rem;
+                        font-weight: 900;
+                        color: #fdba74;
+                        margin: 0.25rem 0;
+                      "
+                    >
+                      MATH PIXEL ISLAND
+                    </h3>
+                    <p class="mono" style="font-size: 0.95rem; color: #d1d5db">
+                      Solve puzzles in 8-bit paradise
+                    </p>
+                  </div>
+
+                  <!-- little pulses -->
+                  <span
+                    class="pixel"
+                    style="
+                      top: 0.8rem;
+                      left: 0.8rem;
+                      background: var(--orange-400);
+                    "
+                  ></span>
+                  <span
+                    class="pixel"
+                    style="
+                      top: 1.5rem;
+                      right: 1.5rem;
+                      background: var(--yellow-400);
+                      animation-delay: 0.4s;
+                    "
+                  ></span>
+                  <span
+                    class="pixel"
+                    style="
+                      bottom: 1rem;
+                      left: 2rem;
+                      background: var(--green-400);
+                      animation-delay: 0.8s;
+                    "
+                  ></span>
+                </div>
+              </div>
+
+              <div class="center" style="margin: 0.9rem 0">
+                <!-- Rating stars -->
+                <span
+                  style="
+                    display: inline-flex;
+                    gap: 0.5rem;
+                    color: var(--orange-400);
+                  "
+                >
+                  <svg class="icon" viewBox="0 0 24 24">
+                    <path
+                      d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                  <svg class="icon" viewBox="0 0 24 24">
+                    <path
+                      d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                  <svg class="icon" viewBox="0 0 24 24">
+                    <path
+                      d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                  <svg class="icon" viewBox="0 0 24 24" style="color: #6b7280">
+                    <path
+                      d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                  <svg class="icon" viewBox="0 0 24 24" style="color: #6b7280">
+                    <path
+                      d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              <p
+                class="center mono"
+                style="color: #d1d5db; margin: 0 0 1.25rem"
+              >
+                You've unlocked this pixel adventure! Complete Level 2 to
+                explore the mysterious islands.
+              </p>
+
+              <div id="startGame" class="center" style="margin-bottom: 0.5rem">
+                <button class="btn">
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="width: 1.1em; height: 1.1em"
+                  >
+                    <path d="M5 3l14 9-14 9z" />
+                  </svg>
+                  CONTINUE GAME
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer style="padding: 4rem 0; backdrop-filter: var(--blur-bg)">
+        <div class="container">
+          <div class="footer-grid" style="margin-bottom: 2rem">
+            <!-- Contact -->
+            <div>
+              <h3
+                class="mono"
+                style="
+                  font-size: 1.5rem;
+                  font-weight: 900;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  margin: 0 0 1rem;
+                "
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  style="color: var(--orange-400)"
+                >
+                  <path d="M8 21h8" />
+                  <path d="M12 17v4" />
+                  <path d="M7 4h10v3a5 5 0 0 1-10 0V4Z" />
+                  <path d="M5 8a3 3 0 0 1-3-3V4h5v1a3 3 0 0 1-2 3Z" />
+                  <path d="M19 8a3 3 0 0 0 3-3V4h-5v1a3 3 0 0 0 2 3Z" />
+                </svg>
+                <span
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      var(--orange-400),
+                      var(--yellow-400)
+                    );
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                  "
+                >
+                  PIXELQUEST
+                </span>
+              </h3>
+              <div style="display: grid; gap: 0.75rem">
+                <div style="display: flex; align-items: center; gap: 0.6rem">
+                  <!-- Mail -->
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="color: var(--orange-400)"
+                  >
+                    <path d="M4 4h16v16H4z" />
+                    <path d="M22 6 12 13 2 6" />
+                  </svg>
+                  <span class="mono" style="color: #d1d5db; font-size: 0.9rem"
+                    >eduQuest@gmail.com</span
+                  >
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.6rem">
+                  <!-- Phone -->
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="color: var(--yellow-400)"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.3 1.77.54 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.06a2 2 0 0 1 2.11-.45c.84.24 1.71.42 2.61.54A2 2 0 0 1 22 16.92Z"
+                    />
+                  </svg>
+                  <span class="mono" style="color: #d1d5db; font-size: 0.9rem"
+                    >+20 01026226361</span
+                  >
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.6rem">
+                  <!-- MapPin -->
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="color: var(--green-400)"
+                  >
+                    <path
+                      d="M12 21s-6-5.4-6-10a6 6 0 1 1 12 0c0 4.6-6 10-6 10Z"
+                    />
+                    <circle cx="12" cy="11" r="2" />
+                  </svg>
+                  <span class="mono" style="color: #d1d5db; font-size: 0.9rem"
+                    >Egypt, Giza</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h4
+                class="mono"
+                style="
+                  font-size: 1.25rem;
+                  font-weight: 900;
+                  color: var(--yellow-300);
+                  margin: 0 0 1rem;
+                "
+              >
+                QUICK LINKS
+              </h4>
+              <div class="quicks" style="display: grid; gap: 0.5rem">
+                <a class="mono muted" href="about.html">ABOUT US</a>
+                <a class="mono muted" href="#">HOW IT WORKS</a>
+                <a class="mono muted" href="#">PRICING</a>
+                <a class="mono muted" href="#">SUPPORT</a>
+              </div>
+            </div>
+
+            <!-- Social -->
+            <div>
+              <h4
+                class="mono"
+                style="
+                  font-size: 1.25rem;
+                  font-weight: 900;
+                  color: #86efac;
+                  margin: 0 0 1rem;
+                "
+              >
+                FOLLOW US
+              </h4>
+              <div style="display: flex; gap: 0.75rem">
+                <a
+                  class="social-btn"
+                  href="#"
+                  title="Facebook"
+                  style="border-color: #fb923c80"
+                >
+                  <!-- Facebook -->
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="color: var(--orange-400)"
+                  >
+                    <path
+                      d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  class="social-btn"
+                  href="#"
+                  title="Twitter"
+                  style="border-color: #facc1580"
+                >
+                  <!-- Twitter/X simplified -->
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="color: var(--yellow-400)"
+                  >
+                    <path d="M4 4l16 16M20 4 4 20" />
+                  </svg>
+                </a>
+                <a
+                  class="social-btn"
+                  href="#"
+                  title="Instagram"
+                  style="border-color: #22c55e80"
+                >
+                  <!-- Instagram -->
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    style="color: var(--green-400)"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="3" />
+                    <circle cx="17.5" cy="6.5" r="1" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              border-top: 2px solid #fb923c4d;
+              margin-top: 2rem;
+              padding-top: 2rem;
+            "
+            class="center"
+          >
+            <p class="mono muted" style="font-size: 0.85rem">
+              © 2025 PIXELQUEST. MAKING LEARNING FUN IN 16-BIT STYLE.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- settings -->
+
+
+
+
+    <!-------------->
+
+    <script>
+      let CTA = document.getElementById("cta");
+
+      CTA.addEventListener("click", () => {
+        window.location.href = "login.html";
+      });
+
+      const gamePrev = document.getElementById("startGame");
+
+      gamePrev.addEventListener("click", () => {
+        window.location.href = "login.html";
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const id = a.getAttribute("href");
+          const el = document.querySelector(id);
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      const closeBtn = document.getElementById("closeBtn");
+      const overlay = document.getElementById("popupOverlay");
+      const prof = document.getElementById("prof");
+
+      prof.addEventListener("click", () => {
+        overlay.style.display = "flex";
+      });
+
+      closeBtn.addEventListener("click", () => {
+        overlay.style.display = "none";
+      });
+
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          overlay.style.display = "none";
+        }
+      });
+
+      function openPopup() {
+        overlay.classList.add("active");
+      }
+
+      function closePopup() {
+        overlay.classList.remove("active");
+      }
+
+      const music = document.getElementById("bg-music");
+
+      function setVolume(value) {
+        music.volume = value;
+      }
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>

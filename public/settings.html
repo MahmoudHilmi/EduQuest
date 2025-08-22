@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings • Pixel Dark</title>
+    <!-- Pixel-ish font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Cairo:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f0f0f; /* page background */
+        --bg-2: #141414; /* cards */
+        --bg-3: #1b1b1b; /* inputs */
+        --text: #e9f1ee; /* primary text */
+        --muted: #9aa6a0; /* secondary text */
+        --neon: #00ffa6; /* primary neon */
+        --neon-2: #33ccff; /* cyan */
+        --neon-3: #c266ff; /* purple */
+        --danger: #ff6868;
+        --ok: #70ff70;
+        --shadow: 0 0 0 2px rgba(0, 255, 166, 0.25),
+          0 0 20px rgba(0, 255, 166, 0.15);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        /* subtle pixel pattern */
+        background-image: radial-gradient(
+            rgba(255, 255, 255, 0.04) 1px,
+            transparent 1px
+          ),
+          linear-gradient(transparent 31px, rgba(255, 255, 255, 0.03) 31px),
+          linear-gradient(
+            90deg,
+            transparent 31px,
+            rgba(255, 255, 255, 0.03) 31px
+          );
+        background-size: 32px 32px, 32px 32px, 32px 32px;
+        background-position: 0 0, 0 0, 0 0;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 20px;
+        min-height: 100vh;
+      }
+      aside {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: 100vh;
+        padding: 24px 20px;
+        background: linear-gradient(180deg, var(--bg-2), transparent 70%);
+        border-inline-start: 1px solid #1f1f1f;
+        border-inline-end: 1px solid #1f1f1f;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .logo {
+        width: 34px;
+        height: 34px;
+        background: var(--neon);
+        box-shadow: 0 0 0 3px #0f0f0f, 0 0 16px var(--neon);
+        image-rendering: pixelated;
+        border-radius: 4px;
+        position: relative;
+      }
+      .logo:before,
+      .logo:after {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border: 2px solid #0f0f0f;
+      }
+      .title {
+        font-family: "Press Start 2P", "Cairo", monospace;
+        font-size: 14px;
+        letter-spacing: 1px;
+      }
+
+      nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tab-btn {
+        width: 100%;
+        text-align: right;
+        padding: 14px 12px;
+        border: 1px solid #242424;
+        background: var(--bg-2);
+        color: var(--text);
+        border-radius: 10px;
+        cursor: pointer;
+        position: relative;
+        transition: 0.15s ease;
+        font-weight: 700;
+      }
+      .tab-btn:hover {
+        border-color: #2f2f2f;
+        transform: translateY(-1px);
+      }
+      .tab-btn[aria-selected="true"] {
+        border-color: var(--neon);
+        box-shadow: var(--shadow);
+        background: linear-gradient(180deg, #121212, #161616 60%, #101010);
+      }
+      .badge {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      header.top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 28px;
+        border-bottom: 1px solid #1d1d1d;
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: rgba(15, 15, 15, 0.6);
+      }
+      .glow {
+        font-family: "Press Start 2P", "Cairo", monospace;
+        letter-spacing: 1px;
+        font-size: 16px;
+        color: var(--neon);
+        text-shadow: 0 0 8px rgba(0, 255, 166, 0.65),
+          0 0 32px rgba(0, 255, 166, 0.25);
+      }
+      .container {
+        padding: 24px 28px 64px;
+      }
+
+      .card {
+        background: var(--bg-2);
+        border: 1px solid #232323;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .row-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .row-1 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      select,
+      .fake-input {
+        width: 100%;
+        padding: 14px 12px;
+        background: var(--bg-3);
+        color: var(--text);
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        outline: none;
+        transition: 0.15s;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--neon);
+        box-shadow: 0 0 0 2px rgba(0, 255, 166, 0.15);
+      }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .toggle input {
+        appearance: none;
+        width: 54px;
+        height: 30px;
+        background: #0d0d0d;
+        border: 1px solid #2a2a2a;
+        border-radius: 30px;
+        position: relative;
+        outline: none;
+        cursor: pointer;
+      }
+      .toggle input::after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        left: 4px;
+        top: 3px;
+        background: #2f2f2f;
+        transition: 0.15s;
+      }
+      .toggle input:checked {
+        border-color: var(--neon);
+        box-shadow: var(--shadow);
+      }
+      .toggle input:checked::after {
+        left: 28px;
+        background: var(--neon);
+      }
+
+      .slider {
+        appearance: none;
+        width: 100%;
+        height: 8px;
+        background: #1c1c1c;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+      }
+      .slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        background: var(--neon);
+        border: 2px solid #0b0b0b;
+        box-shadow: 0 0 12px rgba(0, 255, 166, 0.35);
+      }
+
+      .avatar-box {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .avatar-box .preview {
+        width: 92px;
+        height: 92px;
+        border-radius: 12px;
+        border: 1px dashed #2b2b2b;
+        background: #101010 center/cover no-repeat;
+      }
+
+      .pill {
+        display: inline-flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .pill button {
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid #2a2a2a;
+        background: #121212;
+        color: var(--text);
+        cursor: pointer;
+      }
+      .pill button[aria-pressed="true"] {
+        border-color: var(--neon);
+        box-shadow: var(--shadow);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+      .btn {
+        padding: 12px 16px;
+        border: 1px solid #2a2a2a;
+        background: #121212;
+        color: var(--text);
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn.primary {
+        border-color: var(--neon);
+        box-shadow: var(--shadow);
+      }
+      .btn.danger {
+        border-color: #3a2222;
+        background: linear-gradient(#181111, #120d0d);
+        color: #ffb2b2;
+      }
+
+      .tabs-panel {
+        display: none;
+      }
+      .tabs-panel[aria-hidden="false"] {
+        display: block;
+      }
+
+      .note {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      footer {
+        padding: 12px 28px 28px;
+        color: var(--muted);
+      }
+      @media (max-width: 980px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        aside {
+          position: static;
+          height: auto;
+        }
+        .row,
+        .row-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="settnigs">
+      <header class="top">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div class="title">PIXEL ACADEMY</div>
+            <div class="badge">إعدادات الموقع</div>
+          </div>
+        </div>
+        <div class="toggle">
+          <label for="theme-toggle" class="glow">NEON</label>
+          <input id="theme-toggle" type="checkbox" checked />
+        </div>
+      </header>
+
+      <main class="wrap" id="app">
+        <aside>
+          <nav role="tablist" aria-label="Settings sections">
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="true"
+              aria-controls="tab-general"
+              id="t-general"
+            >
+              ⚙️ General
+            </button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-account"
+              id="t-account"
+            >
+              👤 Account
+            </button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-avatar"
+              id="t-avatar"
+            >
+              🧩 Avatar
+            </button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-security"
+              id="t-security"
+            >
+              🔒 Security
+            </button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-devops"
+              id="t-devops"
+            >
+              🛠️ DevOps
+            </button>
+          </nav>
+        </aside>
+
+        <section class="container">
+          <!-- GENERAL -->
+          <section
+            class="tabs-panel"
+            id="tab-general"
+            role="tabpanel"
+            aria-hidden="false"
+            aria-labelledby="t-general"
+          >
+            <h2 class="glow">General</h2>
+            <div class="card row">
+              <div>
+                <label>Site Title</label>
+                <input
+                  type="text"
+                  placeholder="Pixel Academy"
+                  value="Pixel Academy"
+                />
+              </div>
+              <div>
+                <label>Language</label>
+                <select>
+                  <option>العربية</option>
+                  <option selected>English</option>
+                </select>
+              </div>
+              <div>
+                <label>Enable Hints</label>
+                <div class="toggle"><input type="checkbox" checked /></div>
+              </div>
+              <div>
+                <label>Music Volume</label>
+                <input
+                  id="musicSlider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1.0"
+                  value="35"
+                  class="slider"
+                />
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn">إلغاء</button
+              ><button class="btn primary">حفظ</button>
+            </div>
+          </section>
+
+          <!-- ACCOUNT -->
+          <section
+            class="tabs-panel"
+            id="tab-account"
+            role="tabpanel"
+            aria-hidden="true"
+            aria-labelledby="t-account"
+          >
+            <h2 class="glow">Account</h2>
+            <div class="card row">
+              <div>
+                <label>Username</label>
+                <input type="text" placeholder="username" value="mahmoud" />
+              </div>
+              <div>
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="you@email.com"
+                  value="you@email.com"
+                />
+              </div>
+              <div>
+                <label>Timezone</label>
+                <select>
+                  <option>Africa/Cairo</option>
+                  <option>UTC</option>
+                </select>
+              </div>
+              <div>
+                <label>Preferred Subject</label>
+                <select>
+                  <option>Math</option>
+                  <option>Physics</option>
+                  <option selected>Programming</option>
+                </select>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn">إلغاء</button
+              ><button class="btn primary">تحديث الحساب</button>
+            </div>
+          </section>
+
+          <!-- AVATAR -->
+          <section
+            class="tabs-panel"
+            id="tab-avatar"
+            role="tabpanel"
+            aria-hidden="true"
+            aria-labelledby="t-avatar"
+          >
+            <h2 class="glow">Avatar</h2>
+            <div class="card row-1">
+              <div class="avatar-box">
+                <div
+                  class="preview"
+                  id="avatarPreview"
+                  style="
+                    background-image: url('https://picsum.photos/seed/pixel/200');
+                  "
+                ></div>
+                <div style="flex: 1">
+                  <label>Upload new avatar</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="avatarInput"
+                    class="fake-input"
+                  />
+                  <p class="note">
+                    يفضل صورة مربعة 256×256. هنعملها Pixelated تلقائيًا.
+                  </p>
+                  <div class="pill">
+                    <button type="button" aria-pressed="true">8‑bit</button>
+                    <button type="button" aria-pressed="false">16‑bit</button>
+                    <button type="button" aria-pressed="false">CRT</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn">إلغاء</button
+              ><button class="btn primary">حفظ الصورة</button>
+            </div>
+          </section>
+
+          <!-- SECURITY -->
+          <section
+            class="tabs-panel"
+            id="tab-security"
+            role="tabpanel"
+            aria-hidden="true"
+            aria-labelledby="t-security"
+          >
+            <h2 class="glow">Security</h2>
+            <div class="card row">
+              <div>
+                <label>Current Password</label>
+                <input type="password" placeholder="••••••••" />
+              </div>
+              <div>
+                <label>New Password</label>
+                <input type="password" placeholder="••••••••" />
+              </div>
+              <div>
+                <label>Two‑Factor Auth (2FA)</label>
+                <div class="toggle"><input id="twofa" type="checkbox" /></div>
+              </div>
+              <div>
+                <label>Login Alerts</label>
+                <div class="toggle"><input type="checkbox" checked /></div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Sessions</h3>
+              <p class="note">إقفل الجلسات المفتوحة على الأجهزة التانية</p>
+              <div class="actions">
+                <button class="btn danger">Sign out all devices</button>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn">إلغاء</button
+              ><button class="btn primary">حفظ</button>
+            </div>
+          </section>
+
+          <!-- DEVOPS -->
+          <section
+            class="tabs-panel"
+            id="tab-devops"
+            role="tabpanel"
+            aria-hidden="true"
+            aria-labelledby="t-devops"
+          >
+            <h2 class="glow">DevOps</h2>
+            <div class="card row">
+              <div>
+                <label>API Key</label>
+                <input type="text" value="pk_live_****************" />
+                <p class="note">إعرض/إخفِ المفاتيح من لوحة التحكم.</p>
+              </div>
+              <div>
+                <label>Environment</label>
+                <select>
+                  <option>Development</option>
+                  <option selected>Staging</option>
+                  <option>Production</option>
+                </select>
+              </div>
+              <div>
+                <label>Webhooks URL</label>
+                <input type="text" placeholder="https://example.com/webhook" />
+              </div>
+              <div>
+                <label>Auto‑Deploy</label>
+                <div class="toggle"><input type="checkbox" checked /></div>
+              </div>
+            </div>
+            <div class="card row-3">
+              <div>
+                <label>Builds Retention (days)</label>
+                <input type="text" value="14" />
+              </div>
+              <div>
+                <label>Logs Level</label>
+                <select>
+                  <option>Info</option>
+                  <option selected>Warn</option>
+                  <option>Error</option>
+                </select>
+              </div>
+              <div>
+                <label>Preview Links</label>
+                <div class="toggle"><input type="checkbox" checked /></div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn">إلغاء</button
+              ><button class="btn primary">حفظ إعدادات DevOps</button>
+            </div>
+          </section>
+
+          <footer>© 2025 EduQuest Academy — •</footer>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // Tab switching
+      const tabs = document.querySelectorAll('[role="tab"]');
+      const panels = document.querySelectorAll(".tabs-panel");
+      tabs.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabs.forEach((b) => b.setAttribute("aria-selected", "false"));
+          btn.setAttribute("aria-selected", "true");
+          panels.forEach((p) => p.setAttribute("aria-hidden", "true"));
+          const id = btn.getAttribute("aria-controls");
+          document.getElementById(id).setAttribute("aria-hidden", "false");
+        });
+      });
+
+      // Theme neon toggle (just accent swap)
+      const themeToggle = document.getElementById("theme-toggle");
+      themeToggle.addEventListener("change", (e) => {
+        document.documentElement.style.setProperty(
+          "--neon",
+          e.target.checked ? "#00ffa6" : "#33ccff"
+        );
+        document.documentElement.style.setProperty(
+          "--neon-2",
+          e.target.checked ? "#33ccff" : "#00ffa6"
+        );
+      });
+
+      // Avatar preview
+      const avatarInput = document.getElementById("avatarInput");
+      const avatarPreview = document.getElementById("avatarPreview");
+      avatarInput?.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          avatarPreview.style.imageRendering = "pixelated";
+          avatarPreview.style.backgroundImage = `url('${reader.result}')`;
+        };
+        reader.readAsDataURL(file);
+      });
+    </script>
+  </body>
+</html>
+
+<div class="settnigs" id="settings">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <div class="title">PIXEL ACADEMY</div>
+        <div class="badge">إعدادات الموقع</div>
+      </div>
+    </div>
+    <div class="toggle">
+      <label for="theme-toggle" class="glow">NEON</label>
+      <input id="theme-toggle" type="checkbox" checked />
+    </div>
+  </header>
+
+  <main class="wrap" id="app">
+    <aside>
+      <nav role="tablist" aria-label="Settings sections">
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="true"
+          aria-controls="tab-general"
+          id="t-general"
+        >
+          ⚙️ General
+        </button>
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="tab-account"
+          id="t-account"
+        >
+          👤 Account
+        </button>
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="tab-avatar"
+          id="t-avatar"
+        >
+          🧩 Avatar
+        </button>
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="tab-security"
+          id="t-security"
+        >
+          🔒 Security
+        </button>
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="tab-devops"
+          id="t-devops"
+        >
+          🛠️ DevOps
+        </button>
+      </nav>
+    </aside>
+
+    <section class="container">
+      <!-- GENERAL -->
+      <section
+        class="tabs-panel"
+        id="tab-general"
+        role="tabpanel"
+        aria-hidden="false"
+        aria-labelledby="t-general"
+      >
+        <h2 class="glow">General</h2>
+        <div class="card row">
+          <div>
+            <label>Site Title</label>
+            <input
+              type="text"
+              placeholder="Pixel Academy"
+              value="Pixel Academy"
+            />
+          </div>
+          <div>
+            <label>Language</label>
+            <select>
+              <option>العربية</option>
+              <option selected>English</option>
+            </select>
+          </div>
+          <div>
+            <label>Enable Hints</label>
+            <div class="toggle"><input type="checkbox" checked /></div>
+          </div>
+          <div>
+            <label>Music Volume</label>
+            <input
+              id="musicSlider"
+              type="range"
+              min="0"
+              max="100"
+              step="1.0"
+              value="35"
+              class="slider"
+            />
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn">إلغاء</button
+          ><button class="btn primary">حفظ</button>
+        </div>
+      </section>
+
+      <!-- ACCOUNT -->
+      <section
+        class="tabs-panel"
+        id="tab-account"
+        role="tabpanel"
+        aria-hidden="true"
+        aria-labelledby="t-account"
+      >
+        <h2 class="glow">Account</h2>
+        <div class="card row">
+          <div>
+            <label>Username</label>
+            <input type="text" placeholder="username" value="mahmoud" />
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="you@email.com"
+              value="you@email.com"
+            />
+          </div>
+          <div>
+            <label>Timezone</label>
+            <select>
+              <option>Africa/Cairo</option>
+              <option>UTC</option>
+            </select>
+          </div>
+          <div>
+            <label>Preferred Subject</label>
+            <select>
+              <option>Math</option>
+              <option>Physics</option>
+              <option selected>Programming</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn">إلغاء</button
+          ><button class="btn primary">تحديث الحساب</button>
+        </div>
+      </section>
+
+      <!-- AVATAR -->
+      <section
+        class="tabs-panel"
+        id="tab-avatar"
+        role="tabpanel"
+        aria-hidden="true"
+        aria-labelledby="t-avatar"
+      >
+        <h2 class="glow">Avatar</h2>
+        <div class="card row-1">
+          <div class="avatar-box">
+            <div
+              class="preview"
+              id="avatarPreview"
+              style="
+                background-image: url('https://picsum.photos/seed/pixel/200');
+              "
+            ></div>
+            <div style="flex: 1">
+              <label>Upload new avatar</label>
+              <input
+                type="file"
+                accept="image/*"
+                id="avatarInput"
+                class="fake-input"
+              />
+              <p class="note">
+                يفضل صورة مربعة 256×256. هنعملها Pixelated تلقائيًا.
+              </p>
+              <div class="pill">
+                <button type="button" aria-pressed="true">8‑bit</button>
+                <button type="button" aria-pressed="false">16‑bit</button>
+                <button type="button" aria-pressed="false">CRT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn">إلغاء</button
+          ><button class="btn primary">حفظ الصورة</button>
+        </div>
+      </section>
+
+      <!-- SECURITY -->
+      <section
+        class="tabs-panel"
+        id="tab-security"
+        role="tabpanel"
+        aria-hidden="true"
+        aria-labelledby="t-security"
+      >
+        <h2 class="glow">Security</h2>
+        <div class="card row">
+          <div>
+            <label>Current Password</label>
+            <input type="password" placeholder="••••••••" />
+          </div>
+          <div>
+            <label>New Password</label>
+            <input type="password" placeholder="••••••••" />
+          </div>
+          <div>
+            <label>Two‑Factor Auth (2FA)</label>
+            <div class="toggle"><input id="twofa" type="checkbox" /></div>
+          </div>
+          <div>
+            <label>Login Alerts</label>
+            <div class="toggle"><input type="checkbox" checked /></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Sessions</h3>
+          <p class="note">إقفل الجلسات المفتوحة على الأجهزة التانية</p>
+          <div class="actions">
+            <button class="btn danger">Sign out all devices</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn">إلغاء</button
+          ><button class="btn primary">حفظ</button>
+        </div>
+      </section>
+
+      <!-- DEVOPS -->
+      <section
+        class="tabs-panel"
+        id="tab-devops"
+        role="tabpanel"
+        aria-hidden="true"
+        aria-labelledby="t-devops"
+      >
+        <h2 class="glow">DevOps</h2>
+        <div class="card row">
+          <div>
+            <label>API Key</label>
+            <input type="text" value="pk_live_****************" />
+            <p class="note">إعرض/إخفِ المفاتيح من لوحة التحكم.</p>
+          </div>
+          <div>
+            <label>Environment</label>
+            <select>
+              <option>Development</option>
+              <option selected>Staging</option>
+              <option>Production</option>
+            </select>
+          </div>
+          <div>
+            <label>Webhooks URL</label>
+            <input type="text" placeholder="https://example.com/webhook" />
+          </div>
+          <div>
+            <label>Auto‑Deploy</label>
+            <div class="toggle"><input type="checkbox" checked /></div>
+          </div>
+        </div>
+        <div class="card row-3">
+          <div>
+            <label>Builds Retention (days)</label>
+            <input type="text" value="14" />
+          </div>
+          <div>
+            <label>Logs Level</label>
+            <select>
+              <option>Info</option>
+              <option selected>Warn</option>
+              <option>Error</option>
+            </select>
+          </div>
+          <div>
+            <label>Preview Links</label>
+            <div class="toggle"><input type="checkbox" checked /></div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn">إلغاء</button
+          ><button class="btn primary">حفظ إعدادات DevOps</button>
+        </div>
+      </section>
+
+      <footer>© 2025 EduQuest Academy — •</footer>
+    </section>
+  </main>
+</div>

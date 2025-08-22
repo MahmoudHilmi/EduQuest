@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meet The Team</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+      :root {
+        --orange-300: #fdba74;
+        --orange-400: #fb923c;
+        --orange-500: #f97316;
+        --yellow-300: #fde047;
+        --yellow-400: #facc15;
+        --yellow-500: #eab308;
+      }
+      body {
+        margin: 0;
+        font-family: "Press Start 2P", cursive;
+        background: linear-gradient(135deg, #000000, #0a0a0a);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        overflow-x: hidden;
+      }
+
+      header h1 {
+        color: var(--orange-500);
+        font-size: 32px;
+        margin-bottom: 20px;
+        /* text-shadow: 0 0 15px #00bfff; */
+        text-shadow: 0 0 15px #fb923c;
+        text-align: center;
+        animation: fadeDown 1s ease;
+      }
+
+      header p {
+        max-width: 900px;
+        margin-bottom: 70px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #aaa;
+        animation: fadeUp 1.2s ease;
+      }
+
+      .team-section {
+        display: flex;
+        flex-direction: column;
+        gap: 80px;
+        max-width: 1100px;
+        width: 100%;
+      }
+
+      .member-block {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        opacity: 0;
+        transform: translateY(40px);
+        animation: slideUp 1s ease forwards;
+      }
+
+      .member-block:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .member-block:nth-child(1) {
+        animation-delay: 0.3s;
+      }
+      .member-block:nth-child(2) {
+        animation-delay: 0.6s;
+      }
+      .member-block:nth-child(3) {
+        animation-delay: 0.9s;
+      }
+      .member-block:nth-child(4) {
+        animation-delay: 1.2s;
+      }
+      .member-block:nth-child(5) {
+        animation-delay: 1.5s;
+      }
+
+      .member-info {
+        flex: 1;
+      }
+
+      .member-info h2 {
+        font-size: 20px;
+        margin: 0 0 10px;
+        color: #fff;
+      }
+
+      .member-info h3 {
+        font-size: 13px;
+        color: var(--orange-400);
+        margin-bottom: 15px;
+      }
+
+      .member-info p {
+        font-size: 12px;
+        line-height: 1.6;
+        color: #ddd;
+        margin-bottom: 15px;
+      }
+
+      .social-links a {
+        margin-right: 12px;
+        font-size: 14px;
+        color: var(--orange-400);
+        text-decoration: none;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #fff;
+        transform: scale(1.1);
+      }
+
+      .member-img img {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 20px;
+        border: 3px solid var(--orange-400);
+        background: #f97316;
+        box-shadow: 0 0 20px rgba(249, 116, 22, 0.66);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .member-img img:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 35px rgba(249, 116, 22, 0.66);
+      }
+
+      footer {
+        margin-top: 80px;
+        font-size: 12px;
+        color: #444;
+        text-align: center;
+        animation: fadeUp 1.5s ease;
+      }
+
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .member-block {
+          flex-direction: column !important;
+          text-align: center;
+        }
+
+        .member-img img {
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Meet The Team</h1>
+      <p>
+        We are a team driven by innovation, passion, and technical expertise.
+        From full‑stack development and game design to cutting‑edge AI and
+        research, every member plays a key role in bringing our vision to life.
+      </p>
+    </header>
+
+    <div class="team-section">
+      <div class="member-block">
+        <div class="member-img">
+          <img src="https://i.ibb.co/Fh9cDd9/avatar4.png" alt="Mahmoud" />
+        </div>
+        <div class="member-info">
+          <h2>Mahmoud</h2>
+          <h3>Team Leader • Full Stack Developer</h3>
+          <p>
+            Mahmoud is the driving force of the team. As leader and full‑stack
+            developer, he handles frontend, backend, databases, and even game
+            design. With his vision and skills, the team’s creativity comes to
+            life in code.
+          </p>
+          <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-img">
+          <img src="https://i.ibb.co/R7CMxZp/avatar3.png" alt="Mohamed" />
+        </div>
+        <div class="member-info">
+          <h2>Mohamed</h2>
+          <h3>Data Analysis & AI</h3>
+          <p>
+            Mohamed turns data into strategies. With expertise in analysis and
+            artificial intelligence, he crafts models that make the project
+            smarter and future‑ready.
+          </p>
+          <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-img">
+          <img src="https://i.ibb.co/R7CMxZp/avatar3.png" alt="Manal" />
+        </div>
+        <div class="member-info">
+          <h2>Manal</h2>
+          <h3>Data Analysis & AI</h3>
+          <p>
+            Manal is a creative problem solver in AI and data. Her fresh
+            approach brings innovative solutions, ensuring the team’s
+            intelligence systems are robust and forward‑thinking.
+          </p>
+          <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-img">
+          <img src="https://i.ibb.co/hgmzkH4/avatar1.png" alt="Rodina" />
+        </div>
+        <div class="member-info">
+          <h2>Rodina</h2>
+          <h3>Research & Statistics</h3>
+          <p>
+            Rodina specializes in research and statistical analysis. Her
+            insights transform raw numbers into meaningful directions, helping
+            the project stay grounded with accurate data.
+          </p>
+          <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-img">
+          <img src="https://i.ibb.co/YTX5cxH/avatar2.png" alt="Ali" />
+        </div>
+        <div class="member-info">
+          <h2>Ali</h2>
+          <h3>Application Lead</h3>
+          <p>
+            Ali is the application mastermind. He makes sure the app runs
+            smoothly, turning abstract concepts into functional, user‑friendly
+            digital products.
+          </p>
+          <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 Our Awesome Team. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
